@@ -6,7 +6,7 @@ import { DashboardMenu } from "../DashboardMenu";
 export const Home: React.FC = () => {
   return (
     <Dashboard>
-      <DashboardMenu title="jogo da Memória">
+      <DashboardMenu title="Jogo de Memória">
         <DashboardButton children="Iniciar Jogo" />
       </DashboardMenu>
     </Dashboard>
