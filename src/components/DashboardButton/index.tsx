@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import * as Styled from "./styles";
 
 interface ButtonProps {
@@ -6,5 +7,13 @@ interface ButtonProps {
 }
 
 export const DashboardButton: React.FC<ButtonProps> = ({ children }) => {
-  return <Styled.ContainerButton>{children}</Styled.ContainerButton>;
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/game");
+  };
+  return (
+    <Styled.ContainerButton onClick={handleClick}>
+      {children}
+    </Styled.ContainerButton>
+  );
 };
