@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import * as Styled from "./styles";
+import { useDispatch, useSelector } from "react-redux";
+import { changeSpinCard, useSpinCard } from "../../../../redux/sliceSpinCard";
 
 interface CardsProps {
   title?: string;
 }
 
 export const Cards: React.FC<CardsProps> = ({ title }) => {
-  const [cardSpin, setCardSpin] = useState<boolean>(true);
+  const spin = useSelector(useSpinCard);
+  const dispatch = useDispatch();
 
   const handleClick = () => {
-    setCardSpin(!cardSpin);
+    dispatch(changeSpinCard());
   };
   return (
     <Styled.FlipperCard
       role="presentation"
-      isClicked={cardSpin}
+      isClicked={spin.spinCard}
       onClick={handleClick}
     >
       <Styled.ContentCard>
