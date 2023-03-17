@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 interface SpinCard {
   spinCard: boolean;
