@@ -3,26 +3,29 @@ import * as Styled from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { changeSpinCard, useSpinCard } from "../../../../redux/sliceSpinCard";
 
-interface CardsProps {
-  title?: string;
-}
-
-export const Cards: React.FC<CardsProps> = ({ title }) => {
-  const spin = useSelector(useSpinCard);
+export const Cards: React.FC = () => {
   const dispatch = useDispatch();
+  const { listCards } = useSelector(useSpinCard);
 
-  const handleClick = () => {
-    dispatch(changeSpinCard());
+  const handleClick = (idCard: number) => {
+    dispatch(changeSpinCard(idCard));
   };
   return (
-    <Styled.FlipperCard
-      role="presentation"
-      isClicked={spin.spinCard}
-      onClick={handleClick}
-    >
-      <Styled.ContentCard>
-        <Styled.TitleCard>{title}</Styled.TitleCard>
-      </Styled.ContentCard>
-    </Styled.FlipperCard>
+    <>
+      {listCards.map((item) => {
+        return (
+          <Styled.FlipperCard
+            key={item.key}
+            role="presentation"
+            isClicked={item.spin}
+            onClick={(event) => handleClick(item.key)}
+          >
+            <Styled.ContentCard>
+              <Styled.TitleCard>{item.nameCard}</Styled.TitleCard>
+            </Styled.ContentCard>
+          </Styled.FlipperCard>
+        );
+      })}
+    </>
   );
 };
