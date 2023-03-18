@@ -1,3 +1,5 @@
 import styled from "styled-components";
 
-export const ContainerBoard = styled.div``
+export const ContainerBoard = styled.div`
+  display: flex;
+`;
