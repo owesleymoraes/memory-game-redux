@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import { AppDispatch, AppThunk } from "./store";
 
 interface CardProps {
@@ -37,9 +38,10 @@ const sliceSpinCard = createSlice({
       const otherIndex = cards.findIndex((c) => !c.spin && !c.hasCardMatch);
 
       if (index > -1) {
-        if(!cards[index].spin){
-          return state
+        if (!cards[index].spin) {
+          return state;
         }
+
         if (otherIndex > -1) {
           if (cards[index].id === cards[otherIndex].id) {
             cards[index].spin = !cards[index].spin;
