@@ -11,12 +11,10 @@ interface CardProps {
 }
 
 interface SpinCard {
-  spinCard: boolean;
   listCards: CardProps[];
 }
 
 const INITIAL_STATE: SpinCard = {
-  spinCard: true,
   listCards: [
     { id: 1, key: 1, nameCard: "carta 01", spin: true, hasCardMatch: false },
     { id: 2, key: 2, nameCard: "carta 02", spin: true, hasCardMatch: false },
@@ -33,27 +31,38 @@ const sliceSpinCard = createSlice({
   reducers: {
     //action
     changeSpinCard: (state, action) => {
+      const cardsList = new Array();
       const cards = state.listCards.slice();
       const index = cards.findIndex((c) => c.key === action.payload);
+
+      const cardSelected = cards.filter((cardChange) => {
+        return cardChange.id === cards[index].id;
+      });
+
+      const i = cardSelected.map(c => {
+         return c.id
+      })
+console.log(i);
+
       const otherIndex = cards.findIndex((c) => !c.spin && !c.hasCardMatch);
 
-      if (index > -1) {
-        if (!cards[index].spin) {
-          return state;
-        }
+      // if (index > -1) {
+      //   if (!cards[index].spin) {
+      //     return state;
+      //   }
 
-        if (otherIndex > -1) {
-          if (cards[index].id === cards[otherIndex].id) {
-            cards[index].spin = !cards[index].spin;
-            cards[index].hasCardMatch = true;
-            cards[otherIndex].hasCardMatch = true;
-          } else {
-            cards[otherIndex].spin = !cards[otherIndex].spin;
-          }
-        } else {
-          cards[index].spin = !cards[index].spin;
-        }
-      }
+      //   if (otherIndex > -1) {
+      //     if (cards[index].id === cards[otherIndex].id) {
+      //       cards[index].spin = !cards[index].spin;
+      //       cards[index].hasCardMatch = true;
+      //       cards[otherIndex].hasCardMatch = true;
+      //     } else {
+      //       cards[otherIndex].spin = !cards[otherIndex].spin;
+      //     }
+      //   } else {
+      //     cards[index].spin = !cards[index].spin;
+      //   }
+      // }
     },
   },
 });
