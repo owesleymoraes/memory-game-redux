@@ -11,10 +11,12 @@ interface CardProps {
 }
 
 interface SpinCard {
+  count: number
   listCards: CardProps[];
 }
 
 const INITIAL_STATE: SpinCard = {
+  count: 0,
   listCards: [
     { id: 1, key: 1, nameCard: "carta 01", spin: true, hasCardMatch: false },
     { id: 2, key: 2, nameCard: "carta 02", spin: true, hasCardMatch: false },
@@ -31,18 +33,27 @@ const sliceSpinCard = createSlice({
   reducers: {
     //action
     changeSpinCard: (state, action) => {
-      const cardsList = new Array();
+      const arrayCard = new Array();
       const cards = state.listCards.slice();
       const index = cards.findIndex((c) => c.key === action.payload);
 
-      const cardSelected = cards.filter((cardChange) => {
-        return cardChange.id === cards[index].id;
-      });
+      const cardSelected = cards
+        .filter((cardChange) => {
+          return cardChange.id === cards[index].id;
+        })
+        .map((c) => c.id)
+        .toString()
+        .split(",");
 
-      const i = cardSelected.map(c => {
-         return c.id
-      })
-console.log(i);
+      const idCardSpin = Number(cardSelected.shift());
+
+      if (idCardSpin === cards[index].id && cards[index].spin === true) {
+        cards[index].spin = !cards[index].spin;
+        arrayCard[state.count] = idCardSpin
+      }
+      state.count++
+      console.log(arrayCard[0]);
+      console.log(arrayCard[1]);
 
       const otherIndex = cards.findIndex((c) => !c.spin && !c.hasCardMatch);
 
