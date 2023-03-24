@@ -11,11 +11,13 @@ interface CardProps {
 }
 
 interface SpinCard {
-  count: number
+  count: number;
   listCards: CardProps[];
+  arrayCard: number[];
 }
 
 const INITIAL_STATE: SpinCard = {
+  arrayCard: [],
   count: 0,
   listCards: [
     { id: 1, key: 1, nameCard: "carta 01", spin: true, hasCardMatch: false },
@@ -33,29 +35,41 @@ const sliceSpinCard = createSlice({
   reducers: {
     //action
     changeSpinCard: (state, action) => {
-      const arrayCard = new Array();
+      let index = 0;
       const cards = state.listCards.slice();
-      const index = cards.findIndex((c) => c.key === action.payload);
+      if (state.count === 2) {
+        //condicional para apenas permitir duas cartas sendo abertas
+      } else {
+        index = cards.findIndex((key) => key.key === action.payload);
+      }
 
-      const cardSelected = cards
+      const keyCardSelected = cards
         .filter((cardChange) => {
-          return cardChange.id === cards[index].id;
+          return cardChange.key === cards[index].key;
         })
-        .map((c) => c.id)
+        .map((k) => k.key)
         .toString()
         .split(",");
 
-      const idCardSpin = Number(cardSelected.shift());
+      const keyCardSpin = Number(keyCardSelected.shift());
 
-      if (idCardSpin === cards[index].id && cards[index].spin === true) {
+      if (keyCardSpin === cards[index].key && cards[index].spin === true) {
         cards[index].spin = !cards[index].spin;
-        arrayCard[state.count] = idCardSpin
-      }
-      state.count++
-      console.log(arrayCard[0]);
-      console.log(arrayCard[1]);
 
-      const otherIndex = cards.findIndex((c) => !c.spin && !c.hasCardMatch);
+        // armazena o index da carta selecionada = 1
+        state.arrayCard[state.count] = index;
+        state.count++;
+      }
+
+      if (state.count === 2) {
+        const cardsNotSelected = cards
+          .filter((c) => c.key !== cards[state.arrayCard[0]].key)
+          .filter((c) => c.key != cards[state.arrayCard[1]].key)
+          .map((c) => c.key);
+        state.count = 0;
+      }
+
+      // const otherIndex = cards.findIndex((c) => !c.spin && !c.hasCardMatch);
 
       // if (index > -1) {
       //   if (!cards[index].spin) {
