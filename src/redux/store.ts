@@ -1,6 +1,6 @@
+import { useDispatch } from "react-redux";
 import sliceSpinCard from "./sliceSpinCard";
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
 
 const store = configureStore({
   reducer: {

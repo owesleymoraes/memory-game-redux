@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Styled from "./styles";
 import { useDispatch, useSelector } from "react-redux";
-import { changeSpinCard, useSpinCard } from "../../../../redux/sliceSpinCard";
+import {
+  changeSpinCard,
+  reverseTheCards,
+  useSpinCard,
+} from "../../../../redux/sliceSpinCard";
 
 export const Cards: React.FC = () => {
+  const [amountClick, setAmountClick] = useState<number>(1);
+
   const dispatch = useDispatch();
   const { listCards } = useSelector(useSpinCard);
 
   const handleClick = (idCard: number) => {
     dispatch(changeSpinCard(idCard));
+
+    setAmountClick(amountClick + 1);
+
+    if (amountClick === 2) {
+      setTimeout(() => {
+        dispatch(reverseTheCards());
+        setAmountClick(1);
+      }, 700);
+    }
   };
   return (
     <>
