@@ -1,5 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
-
+import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { AppDispatch, AppThunk } from "./store";
 
 interface CardProps {
@@ -37,11 +36,7 @@ const sliceSpinCard = createSlice({
     changeSpinCard: (state, action) => {
       let index = 0;
       const cards = state.listCards.slice();
-      if (state.count === 2) {
-        //condicional para apenas permitir duas cartas sendo abertas
-      } else {
-        index = cards.findIndex((key) => key.key === action.payload);
-      }
+      index = cards.findIndex((key) => key.key === action.payload);
 
       const keyCardSelected = cards
         .filter((cardChange) => {
@@ -62,44 +57,28 @@ const sliceSpinCard = createSlice({
       }
 
       if (state.count === 2) {
-        const cardsNotSelected = cards
-          .filter((c) => c.key !== cards[state.arrayCard[0]].key)
-          .filter((c) => c.key != cards[state.arrayCard[1]].key)
-          .map((c) => c.key);
         state.count = 0;
       }
+    },
 
-      // const otherIndex = cards.findIndex((c) => !c.spin && !c.hasCardMatch);
-
-      // if (index > -1) {
-      //   if (!cards[index].spin) {
-      //     return state;
-      //   }
-
-      //   if (otherIndex > -1) {
-      //     if (cards[index].id === cards[otherIndex].id) {
-      //       cards[index].spin = !cards[index].spin;
-      //       cards[index].hasCardMatch = true;
-      //       cards[otherIndex].hasCardMatch = true;
-      //     } else {
-      //       cards[otherIndex].spin = !cards[otherIndex].spin;
-      //     }
-      //   } else {
-      //     cards[index].spin = !cards[index].spin;
-      //   }
-      // }
+    reverseTheCards: (state) => {
+      const cards = state.listCards.slice();
+      if (state.arrayCard.length === 2) {
+        if (cards[state.arrayCard[0]].id === cards[state.arrayCard[1]].id) {
+        } else {
+          cards[state.arrayCard[0]].spin = !cards[state.arrayCard[0]].spin;
+          cards[state.arrayCard[1]].spin = !cards[state.arrayCard[1]].spin;
+          
+        }
+      }
     },
   },
 });
 
 //reducer
 export default sliceSpinCard.reducer;
-export const { changeSpinCard } = sliceSpinCard.actions;
+export const { changeSpinCard, reverseTheCards } = sliceSpinCard.actions;
 
 export const useSpinCard = (state: any) => {
   return state.spinCardStore as SpinCard;
 };
-
-export function asyncShowCard(): AppThunk {
-  return async function (dispatch) {};
-}
